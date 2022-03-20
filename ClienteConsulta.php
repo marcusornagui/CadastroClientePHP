@@ -6,8 +6,12 @@ require_once './Sessao.php';
     <head>
         <meta charset="UTF-8">
         <title>Cadastro de Clientes - Consulta</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
+        <?php require_once './NavBar.php'; ?>
+
+        <button onclick="location.href='clientecadastro'">Cadastrar</button>
         <button onclick="consultar()">Consultar</button>
         <div id="clientes"></div>
 
@@ -27,6 +31,16 @@ require_once './Sessao.php';
                     resposta = JSON.parse(this.responseText);
 
                     var htmlClientes = "<table>";
+                    htmlClientes += "<tr>";
+                    htmlClientes += "<td>ID</td>";
+                    htmlClientes += "<td>NOME</td>";
+                    htmlClientes += "<td>DATA NASCIMENTO</td>";
+                    htmlClientes += "<td>CPF</td>";
+                    htmlClientes += "<td>RG</td>";
+                    htmlClientes += "<td>TELEFONE</td>";
+                    htmlClientes += "<td></td>";
+                    htmlClientes += "<td></td>";
+                    htmlClientes += "</tr>";
 
                     for (var j = 0; j < resposta.length; j++) {
                         htmlClientes += "<tr>";
@@ -66,9 +80,9 @@ require_once './Sessao.php';
                     let resposta = http.responseText;
                     resposta = JSON.parse(this.responseText);
                     console.log(resposta);
-                    
+
                     consultar();
-                    
+
                 } else if (http.status == 500) {
                     let resposta = http.responseText;
                     resposta = JSON.parse(this.responseText);

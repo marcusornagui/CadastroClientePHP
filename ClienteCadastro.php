@@ -7,14 +7,18 @@ require_once './Sessao.php';
     <head>
         <meta charset="UTF-8">
         <title>Cadastro de Clientes - Cadastro</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
+        <?php require_once './NavBar.php'; ?>
+        
         <label>ID:</label><input type="text" name="id" id="id" disabled="disabled"><br>
-        <label>NOME:</label><input type="text" name="nome" id="nome"><br>
-        <label>CPF:</label><input type="text" name="cpf" id="cpf"><br>
-        <label>RG:</label><input type="text" name="rg" id="rg"><br>
-        <label>TELEFONE:</label><input type="text" name="telefone" id="telefone"><br>
-        <label>DATA NASCIMENTO:</label><input type="text" name="datanascimento" id="datanascimento"><br>
+        <label>NOME:</label><input type="text" name="nome" id="nome" maxlength="50"><br>
+        <label>CPF:</label><input type="text" name="cpf" id="cpf" maxlength="11"><br>
+        <label>RG:</label><input type="text" name="rg" id="rg" maxlength="9"><br>
+        <label>TELEFONE:</label><input type="tel" name="telefone" id="telefone" maxlength="15"><br>
+        <label>DATA NASCIMENTO:</label><input type="date" name="datanascimento" id="datanascimento"><br>
+        <button onclick="location.href='clienteconsulta'">Voltar</button>
         <button onclick="salvar()">Salvar</button>
     </body>
 
@@ -84,7 +88,7 @@ require_once './Sessao.php';
                     document.getElementById("cpf").value = resposta.cpf;
                     document.getElementById("rg").value = resposta.rg;
                     document.getElementById("telefone").value = resposta.telefone;
-                    document.getElementById("datanascimento").value = formatarData(resposta.datanascimento);
+                    document.getElementById("datanascimento").value = resposta.datanascimento;
 
                 } else if (http.status == 500) {
                     let resposta = http.responseText;
@@ -93,12 +97,6 @@ require_once './Sessao.php';
                 }
             }
             http.send();
-        }
-
-        function formatarData(pData) {
-            data = new Date(pData);
-            dataFormatada = data.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-            return dataFormatada;
         }
     </script>
 

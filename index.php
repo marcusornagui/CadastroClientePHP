@@ -6,10 +6,12 @@ require_once './Sessao.php';
     <head>
         <meta charset="UTF-8">
         <title>Cadastro de Clientes</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <a href="clientecadastro.php">Cadastro Cliente</a>
-        <a href="logout.php">Sair</a>
+        <?php require_once './NavBar.php'; ?>
+
+        <a href="clienteconsulta.php">Cadastro Cliente</a>
     </body>
 
 

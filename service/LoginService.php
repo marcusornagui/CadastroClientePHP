@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
         if ($id > 0) {
             $_SESSION['id'] = $id;
+            $_SESSION['login'] = $login;
             $resposta["status"] = "OK";
             $resposta["mensagem"] = "Usuário autenticado com sucesso.";
         } else {
