@@ -3,11 +3,11 @@
 require_once('../model/ClienteVO.php');
 require_once('../repository/ClienteDAO.php');
 
-$resposta = array();
-
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+    $resposta = array();
+    
     try {
-        $id = $_POST['id'];
+        $id = isset($_POST['id']) ? $_POST['id'] : 0;
         $nome = $_POST['nome'];
         $cpf = $_POST['cpf'];
         $rg = $_POST['rg'];
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
         $instance = new ClienteDAO();
 
-        if ($instance->idExiste($cliente->getId())) {
+        if ($id > 0 && $instance->idExiste($cliente->getId())) {
             $instance->alterar($cliente);
 
             $resposta["status"] = "OK";
@@ -40,7 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         $resposta["status"] = "ERROR";
         $resposta["mensagem"] = $e->getMessage();
     }
-} 
 
-echo json_encode($resposta);
+    echo json_encode($resposta);
+} else if ($_SERVER["REQUEST_METHOD"] == 'GET') {
+    $id = isset($_GET['id']) ? $_GET['id'] : 0;
+    
+    $instance = new ClienteDAO();
+
+    echo json_encode($instance->carregar($id));
+}
+
 

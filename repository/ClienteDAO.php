@@ -16,16 +16,32 @@ class ClienteDAO {
             $sql = "SELECT id, nome, datanascimento, cpf, rg, telefone";
             $sql .= " FROM cliente";
             $sql .= " ORDER BY nome";
-            
+
             $p_sql = Conexao::getConnection()->prepare($sql);
             $p_sql->execute();
 
             $result = $p_sql->fetchAll(PDO::FETCH_ASSOC);
 
             return !empty($result) ? $result : array();
-            
         } catch (Exception $e) {
             throw new Exception("Erro ao consultar cliente: " . $e->getMessage());
+        }
+    }
+
+    public function carregar($id) {
+        try {
+            $sql = "SELECT id, nome, datanascimento, cpf, rg, telefone";
+            $sql .= " FROM cliente";
+            $sql .= " WHERE id = " . $id;
+
+            $p_sql = Conexao::getConnection()->prepare($sql);
+            $p_sql->execute();
+
+            $result = $p_sql->fetch(PDO::FETCH_ASSOC);
+
+            return !empty($result) ? $result : array();
+        } catch (Exception $e) {
+            throw new Exception("Erro ao carregar cliente: " . $e->getMessage());
         }
     }
 
@@ -91,7 +107,7 @@ class ClienteDAO {
             throw new Exception("Erro ao alterar cliente: " . $e->getMessage());
         }
     }
-    
+
     public function excluir($id) {
         try {
             $sql = "DELETE FROM cliente WHERE id = :id";
