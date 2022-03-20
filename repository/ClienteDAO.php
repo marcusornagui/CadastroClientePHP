@@ -32,9 +32,10 @@ class ClienteDAO {
         try {
             $sql = "SELECT id, nome, datanascimento, cpf, rg, telefone";
             $sql .= " FROM cliente";
-            $sql .= " WHERE id = " . $id;
+            $sql .= " WHERE id = :id";
 
             $p_sql = Conexao::getConnection()->prepare($sql);
+            $p_sql->bindValue(":id", $id);
             $p_sql->execute();
 
             $result = $p_sql->fetch(PDO::FETCH_ASSOC);
@@ -47,9 +48,10 @@ class ClienteDAO {
 
     public function idExiste($id) {
         try {
-            $sql = "SELECT id FROM cliente WHERE id = " . $id;
+            $sql = "SELECT id FROM cliente WHERE id = :id";
 
             $p_sql = Conexao::getConnection()->prepare($sql);
+            $p_sql->bindValue(":id", $id);
             $p_sql->execute();
 
             if ($p_sql->rowCount() == 0) {

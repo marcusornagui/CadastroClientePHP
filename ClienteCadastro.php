@@ -1,3 +1,7 @@
+<?php
+require_once './Sessao.php';
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -70,6 +74,10 @@
                     let resposta = http.responseText;
                     resposta = JSON.parse(this.responseText);
                     console.log(resposta);
+
+                    if (resposta.length === 0) {
+                        return;
+                    }
 
                     document.getElementById("id").value = resposta.id;
                     document.getElementById("nome").value = resposta.nome;

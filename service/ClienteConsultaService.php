@@ -1,5 +1,5 @@
 <?php
-
+require_once '../Sessao.php';
 require_once('../repository/ClienteDAO.php');
 
 if ($_SERVER["REQUEST_METHOD"] == 'GET') {

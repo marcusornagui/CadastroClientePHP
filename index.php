@@ -1,3 +1,6 @@
+<?php
+require_once './Sessao.php';
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,7 +8,8 @@
         <title>Cadastro de Clientes</title>
     </head>
     <body>
-        <h1>Cadastro de Cliente</h1>
+        <a href="clientecadastro.php">Cadastro Cliente</a>
+        <a href="logout.php">Sair</a>
     </body>
 
 
