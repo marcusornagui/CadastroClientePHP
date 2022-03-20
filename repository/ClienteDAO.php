@@ -91,5 +91,19 @@ class ClienteDAO {
             throw new Exception("Erro ao alterar cliente: " . $e->getMessage());
         }
     }
+    
+    public function excluir($id) {
+        try {
+            $sql = "DELETE FROM cliente WHERE id = :id";
+
+            $p_sql = Conexao::getConnection()->prepare($sql);
+
+            $p_sql->bindValue(":id", $id);
+
+            return $p_sql->execute();
+        } catch (Exception $e) {
+            throw new Exception("Erro ao excluir cliente: " . $e->getMessage());
+        }
+    }
 
 }

@@ -22,7 +22,7 @@
             var telefone = document.getElementById("telefone").value;
             var datanascimento = document.getElementById("datanascimento").value;
             var http = new XMLHttpRequest();
-            var url = 'service/ClienteService.php';
+            var url = 'service/ClienteCadastroService.php';
             var params = 'id=' + id
                     + '&nome=' + nome
                     + '&cpf=' + cpf
