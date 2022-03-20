@@ -7,6 +7,7 @@ $resposta = array();
 
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     try {
+        $id = $_POST['id'];
         $nome = $_POST['nome'];
         $cpf = $_POST['cpf'];
         $rg = $_POST['rg'];
@@ -14,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         $dataNascimento = $_POST['datanascimento'];
 
         $cliente = new ClienteVO();
+        $cliente->setId($id);
         $cliente->setNome($nome);
         $cliente->setCpf($cpf);
         $cliente->setRg($rg);
@@ -21,18 +23,24 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         $cliente->setDataNascimento($dataNascimento);
 
         $instance = new ClienteDAO();
-        $instance->inserir($cliente);
 
-        $resposta["status"] = "OK";
-        $resposta["mensagem"] = "Cadastro realizado com sucesso.";
-        
+        if ($instance->idExiste($cliente->getId())) {
+            $instance->alterar($cliente);
+
+            $resposta["status"] = "OK";
+            $resposta["mensagem"] = "Cadastro alterado com sucesso.";
+        } else {
+            $instance->inserir($cliente);
+
+            $resposta["status"] = "OK";
+            $resposta["mensagem"] = "Cadastro realizado com sucesso.";
+        }
     } catch (Exception $e) {
         http_response_code(500);
         $resposta["status"] = "ERROR";
         $resposta["mensagem"] = $e->getMessage();
     }
-}
-
+} 
 
 echo json_encode($resposta);
 

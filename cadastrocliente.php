@@ -15,6 +15,7 @@
 
     <script>
         function salvar() {
+            var id = 10;
             var nome = document.getElementById("nome").value;
             var cpf = document.getElementById("cpf").value;
             var rg = document.getElementById("rg").value;
@@ -22,7 +23,8 @@
             var datanascimento = document.getElementById("datanascimento").value;
             var http = new XMLHttpRequest();
             var url = 'service/ClienteService.php';
-            var params = 'nome=' + nome
+            var params = 'id=' + id
+                    + '&nome=' + nome
                     + '&cpf=' + cpf
                     + '&rg=' + rg
                     + '&telefone=' + telefone
@@ -32,6 +34,10 @@
             http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             http.onreadystatechange = function () {
                 if (http.readyState == 4 && http.status == 200) {
+                    let resposta = http.responseText;
+                    resposta = JSON.parse(this.responseText);
+                    console.log(resposta);
+                } else if (http.status == 500) {
                     let resposta = http.responseText;
                     resposta = JSON.parse(this.responseText);
                     console.log(resposta);
