@@ -1,11 +1,16 @@
 body, ul, li, a {
-	margin: 0px;
-	padding: 0px;
-	list-style-type: none;
-	color: inherit;
-	text-decoration: none;
-	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    color: inherit;
+    text-decoration: none;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
+
+body {
+    background: #F2F3F4;
+}
+
 .navbar {
     height: 50px;
     color: #fff;
@@ -14,5 +19,4 @@ body, ul, li, a {
     text-align: right;
     padding-top: 10px;
     padding-right: 20px;
-    
 }

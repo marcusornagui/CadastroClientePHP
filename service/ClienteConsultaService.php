@@ -1,21 +1,25 @@
 <?php
-require_once '../Sessao.php';
+
+require_once('../Sessao.php');
 require_once('../repository/ClienteDAO.php');
+require_once('../repository/ClienteEnderecoDAO.php');
 
 if ($_SERVER["REQUEST_METHOD"] == 'GET') {
 
-    $instance = new ClienteDAO();
+    $clienteDAO = new ClienteDAO();
 
-    echo json_encode($instance->consultar());
+    echo json_encode($clienteDAO->consultar());
 } else if ($_SERVER["REQUEST_METHOD"] == 'DELETE') {
     $resposta = array();
 
     try {
         $id = $_GET['id'];
 
-        $instance = new ClienteDAO();
+        $clienteEnderecoDAO = new ClienteEnderecoDAO();
+        $clienteEnderecoDAO->excluir($id);
 
-        $instance->excluir($id);
+        $clienteDAO = new ClienteDAO();
+        $clienteDAO->excluir($id);
 
         $resposta["status"] = "OK";
         $resposta["mensagem"] = "Cadastro excluído com sucesso.";

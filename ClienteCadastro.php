@@ -8,96 +8,77 @@ require_once './Sessao.php';
         <meta charset="UTF-8">
         <title>Cadastro de Clientes - Cadastro</title>
         <link href="css/style.css" rel="stylesheet" type="text/css">
+        <link href="css/clientecadastro.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="js/clientecadastro.js"></script>
     </head>
     <body>
         <?php require_once './NavBar.php'; ?>
-        
-        <label>ID:</label><input type="text" name="id" id="id" disabled="disabled"><br>
-        <label>NOME:</label><input type="text" name="nome" id="nome" maxlength="50"><br>
-        <label>CPF:</label><input type="text" name="cpf" id="cpf" maxlength="11"><br>
-        <label>RG:</label><input type="text" name="rg" id="rg" maxlength="9"><br>
-        <label>TELEFONE:</label><input type="tel" name="telefone" id="telefone" maxlength="15"><br>
-        <label>DATA NASCIMENTO:</label><input type="date" name="datanascimento" id="datanascimento"><br>
-        <button onclick="location.href='clienteconsulta'">Voltar</button>
-        <button onclick="salvar()">Salvar</button>
-    </body>
 
-    <script>
-        window.onload = function () {
-            carregar();
-        };
+        <div id="dados">
+            <div id="dados-basicos">
+                <h4>DADOS BÁSICOS </h4>
+                <div class="label-basico"><label>ID</label></div>
+                <div class="input-basico"><input type="text" name="id" id="id" disabled="disabled"></div>
+                <div class="label-basico"><label>NOME</label></div>
+                <div class="input-basico"><input type="text" name="nome" id="nome" maxlength="50"></div>
+                <div class="label-basico"><label>CPF</label></div>
+                <div class="input-basico"><input type="text" name="cpf" id="cpf" maxlength="11"></div>
+                <div class="label-basico"><label>RG</label></div>
+                <div class="input-basico"><input type="text" name="rg" id="rg" maxlength="9"></div>
+                <div class="label-basico"><label>TELEFONE</label></div>
+                <div class="input-basico"><input type="tel" name="telefone" id="telefone" maxlength="15"></div>
+                <div class="label-basico"><label>DATA NASCIMENTO</label></div>
+                <div class="input-basico"><input type="date" name="datanascimento" id="datanascimento"></div>
 
-        function salvar() {
-            var id = document.getElementById("id").value;
-            var nome = document.getElementById("nome").value;
-            var cpf = document.getElementById("cpf").value;
-            var rg = document.getElementById("rg").value;
-            var telefone = document.getElementById("telefone").value;
-            var datanascimento = document.getElementById("datanascimento").value;
-            var http = new XMLHttpRequest();
-            var url = 'service/ClienteCadastroService.php';
-            var params = 'id=' + id
-                    + '&nome=' + nome
-                    + '&cpf=' + cpf
-                    + '&rg=' + rg
-                    + '&telefone=' + telefone
-                    + '&datanascimento=' + datanascimento;
+                <div id="mensagem-dados"></div>
+            </div>
 
-            http.open('POST', url, true);
-            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            http.onreadystatechange = function () {
-                if (http.readyState == 4 && http.status == 200) {
-                    let resposta = http.responseText;
-                    resposta = JSON.parse(this.responseText);
-                    console.log(resposta);
-                } else if (http.status == 500) {
-                    let resposta = http.responseText;
-                    resposta = JSON.parse(this.responseText);
-                    console.log(resposta);
-                }
-            }
-            http.send(params);
-        }
 
-        function carregar() {
-            var url_string = window.location.href;
-            var url = new URL(url_string);
-            var id = url.searchParams.get("id");
 
-            if (id === '' || id === null) {
-                return;
-            }
+            <div id="endereco"> 
+                <h4>NOVO ENDEREÇO</h4>
 
-            var http = new XMLHttpRequest();
-            var url = 'service/ClienteCadastroService.php?id=' + id;
+                <div id="cadastro-endereco">
+                    <div class="label-endereco"><label>CEP</label></div>
+                    <div class="input-endereco"><input type="text" name="cep" id="cep" maxlength="9"></div>
+                    <div class="label-endereco"><label>LOGRADOURO</label></div>
+                    <div class="input-endereco"><input type="text" name="logradouro" id="logradouro" maxlength="100"></div>
+                    <div class="label-endereco"><label>NÚMERO</label></div>
+                    <div class="input-endereco"><input type="text" name="numero" id="numero" maxlength="10"></div>
+                    <div class="label-endereco"><label>COMPLEMENTO</label></div>
+                    <div class="input-endereco"><input type="text" name="complemento" id="complemento" maxlength="80"></div>
+                    <div class="label-endereco"><label>BAIRRO</label></div>
+                    <div class="input-endereco"><input type="text" name="bairro" id="bairro" maxlength="50"></div>
+                    <div class="label-endereco"><label>CIDADE</label></div>
+                    <div class="input-endereco"><input type="text" name="cidade" id="cidade" maxlength="50"></div>
+                    <div class="label-endereco"><label>UF</label></div>
+                    <div class="input-endereco"><div id="estados"></div></div>
+                    <div id="mensagem-endereco"></div>
+                    <button id="button-incluir-endereco" onclick="incluirEndereco()">Incluir Endereço</button>
+                </div>
 
-            http.open('GET', url, true);
-            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            http.onreadystatechange = function () {
-                if (http.readyState == 4 && http.status == 200) {
-                    let resposta = http.responseText;
-                    resposta = JSON.parse(this.responseText);
-                    console.log(resposta);
 
-                    if (resposta.length === 0) {
-                        return;
-                    }
+            </div>
+        </div>
 
-                    document.getElementById("id").value = resposta.id;
-                    document.getElementById("nome").value = resposta.nome;
-                    document.getElementById("cpf").value = resposta.cpf;
-                    document.getElementById("rg").value = resposta.rg;
-                    document.getElementById("telefone").value = resposta.telefone;
-                    document.getElementById("datanascimento").value = resposta.datanascimento;
 
-                } else if (http.status == 500) {
-                    let resposta = http.responseText;
-                    resposta = JSON.parse(this.responseText);
-                    console.log(resposta);
-                }
-            }
-            http.send();
-        }
-    </script>
+    </div>
 
+
+    <div id="endereco-lista"> 
+        <h4>ENDEREÇOS CADASTRADOS</h4>
+        <div id="enderecos">Nenhum endereço cadastrado!</div>
+    </div>
+
+
+    <button id="button-salvar" onclick="salvar()">Salvar</button>
+
+    <form method="get" action="clienteconsulta.php">
+        <button id="button-cancelar" type="submit">Cancelar</button>
+    </form>
+
+
+
+
+</body>
 </html>

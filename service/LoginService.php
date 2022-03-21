@@ -9,15 +9,16 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
     try {
         $login = $_POST['login'];
-        $senha = $_POST['senha'];
+        $senha = md5($_POST['senha']);
 
         $instance = new UsuarioDAO();
 
-        $id = $instance->autenticar($login, $senha);
+        $usuario = $instance->autenticar($login, $senha);
 
-        if ($id > 0) {
-            $_SESSION['id'] = $id;
-            $_SESSION['login'] = $login;
+        if ($usuario->getId() > 0) {
+            $_SESSION['id'] = $usuario->getId();
+            $_SESSION['login'] = $usuario->getLogin();
+            $_SESSION['nome'] = $usuario->getNome();
             $resposta["status"] = "OK";
             $resposta["mensagem"] = "Usuário autenticado com sucesso.";
         } else {
@@ -32,12 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     }
 
     echo json_encode($resposta);
-} else if ($_SERVER["REQUEST_METHOD"] == 'GET') {
-    $id = isset($_GET['id']) ? $_GET['id'] : 0;
-
-    $instance = new ClienteDAO();
-
-    echo json_encode($instance->carregar($id));
 }
 
 

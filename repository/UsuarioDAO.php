@@ -1,6 +1,7 @@
 <?php
 
 require_once('../repository/Conexao.php');
+require_once('../model/UsuarioVO.php');
 
 class UsuarioDAO {
 
@@ -12,7 +13,7 @@ class UsuarioDAO {
 
     public function autenticar($login, $senha) {
         try {
-            $sql = "SELECT id";
+            $sql = "SELECT id, nome, login";
             $sql .= " FROM usuario";
             $sql .= " WHERE login = :login";
             $sql .= " AND senha = :senha";
@@ -23,13 +24,15 @@ class UsuarioDAO {
 
             $p_sql->execute();
 
-            $result = 0;
-            
-            if ($p_sql->rowCount() > 0) {
-                $result = $p_sql->fetch(PDO::FETCH_OBJ)->id;
+            $usuario = new UsuarioVO();
+
+            while ($result = $p_sql->fetch(PDO::FETCH_ASSOC)) {
+                $usuario->setId($result['id']);
+                $usuario->setNome($result['nome']);
+                $usuario->setLogin($result['login']);
             }
-            
-            return $result;
+
+            return $usuario;
         } catch (Exception $e) {
             throw new Exception("Erro ao carregar usuário: " . $e->getMessage());
         }

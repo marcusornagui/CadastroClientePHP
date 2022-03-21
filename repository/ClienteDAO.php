@@ -1,5 +1,5 @@
 <?php
-
+require_once('../Sessao.php');
 require_once('../model/ClienteVO.php');
 require_once('../repository/Conexao.php');
 
@@ -38,9 +38,18 @@ class ClienteDAO {
             $p_sql->bindValue(":id", $id);
             $p_sql->execute();
 
-            $result = $p_sql->fetch(PDO::FETCH_ASSOC);
+            $cliente = new ClienteVO();
 
-            return !empty($result) ? $result : array();
+            while ($result = $p_sql->fetch(PDO::FETCH_ASSOC)) {
+                $cliente->setId($result['id']);
+                $cliente->setNome($result['nome']);
+                $cliente->setCpf($result['cpf']);
+                $cliente->setRg($result['rg']);
+                $cliente->setTelefone($result['telefone']);
+                $cliente->setDataNascimento($result['datanascimento']);
+            }
+
+             return $cliente;
         } catch (Exception $e) {
             throw new Exception("Erro ao carregar cliente: " . $e->getMessage());
         }
@@ -79,7 +88,9 @@ class ClienteDAO {
             $p_sql->bindValue(":rg", $cliente->getRg());
             $p_sql->bindValue(":telefone", $cliente->getTelefone());
 
-            return $p_sql->execute();
+            $p_sql->execute();
+
+            return Conexao::getConnection()->lastInsertId();
         } catch (Exception $e) {
             throw new Exception("Erro ao inserir cliente: " . $e->getMessage());
         }

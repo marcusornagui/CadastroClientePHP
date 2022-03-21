@@ -2,12 +2,13 @@
 
 class ClienteVO {
 
-    private $id;
-    private $nome;
-    private $dataNascimento;
-    private $cpf;
-    private $rg;
-    private $telefone;
+    var $id;
+    var $nome;
+    var $dataNascimento;
+    var $cpf;
+    var $rg;
+    var $telefone;
+    var $clienteEndereco;
 
     public function getId() {
         return $this->id;
@@ -55,6 +56,14 @@ class ClienteVO {
 
     public function setTelefone($telefone): void {
         $this->telefone = $telefone;
+    }
+
+    public function getClienteEndereco() {
+        return $this->clienteEndereco;
+    }
+
+    public function setClienteEndereco($clienteEndereco): void {
+        $this->clienteEndereco = $clienteEndereco;
     }
 
 }
