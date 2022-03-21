@@ -11,13 +11,9 @@ require_once './Sessao.php';
     </head>
     <body>
         <?php require_once './NavBar.php'; ?>
-        
+
         <form method="get" action="clienteconsulta.php">
             <button id="button-cliente" type="submit">Cadastro Cliente</button>
         </form>
-
     </body>
-
-
-
 </html>
