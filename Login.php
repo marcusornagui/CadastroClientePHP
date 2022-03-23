@@ -4,9 +4,20 @@
         <meta charset="UTF-8">
         <title>Cadastro de Clientes - Login</title>
         <script type="text/javascript" src="js/login.js"></script>
+        <link href="css/login.css" rel="stylesheet" type="text/css">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <label>USUÁRIO</label><input type="text" name="login" id="login"><br>
-        <label>SENHA</label><input type="password" name="senha" id="senha"><br>
-        <button onclick="login()">Login</button>
+        <div id="flex">
+            <div id="login-box">
+                
+                <h2>Login</h2>
+                
+                <label>USUÁRIO</label><br>
+                <input type="text" name="login" id="login"><br>
+                <label>SENHA</label><br>
+                <input type="password" name="senha" id="senha"><br>
+                <button onclick="login()">ENTRAR</button>
+            </div>
+        </div>
     </body>

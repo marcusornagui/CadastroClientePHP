@@ -30,9 +30,9 @@ function consultar() {
                 htmlClientes += "<td>" + vCliente[cliente].id + "</td>";
                 htmlClientes += "<td>" + vCliente[cliente].nome + "</td>";
                 htmlClientes += "<td>" + formatarData(vCliente[cliente].datanascimento) + "</td>";
-                htmlClientes += "<td>" + vCliente[cliente].cpf + "</td>";
-                htmlClientes += "<td>" + vCliente[cliente].rg + "</td>";
-                htmlClientes += "<td>" + vCliente[cliente].telefone + "</td>";
+                htmlClientes += "<td>" + formatarCPF(vCliente[cliente].cpf) + "</td>";
+                htmlClientes += "<td>" + formatarRG(vCliente[cliente].rg) + "</td>";
+                htmlClientes += "<td>" + formatarTelefone(vCliente[cliente].telefone) + "</td>";
                 htmlClientes += "<td><button id='button-editar' onclick='editar(" + vCliente[cliente].id + ")'>Editar</button></td>";
                 htmlClientes += "<td><button id='button-excluir' onclick='excluir(" + vCliente[cliente].id + ")'>Excluir</button></td>";
                 htmlClientes += "</tr>";
@@ -53,7 +53,7 @@ function consultar() {
 }
 
 function editar(pId) {
-    window.location.href='clientecadastro?id=' + pId;
+    window.location.href = 'clientecadastro?id=' + pId;
 }
 
 function excluir(pId) {
@@ -83,4 +83,24 @@ function formatarData(pData) {
     data = new Date(pData);
     dataFormatada = data.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
     return dataFormatada;
+}
+
+function formatarCPF(cpf) {
+    console.log(cpf);
+
+    cpf = cpf.toString().replace(/[^\d]/g, "");
+
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3-\$4");
+}
+
+function formatarRG(rg){
+    rg = rg.toString().replace(/\D/g,"");
+    rg = rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1})$/,"$1.$2.$3-$4");
+    return rg;
+}
+
+function formatarTelefone(rg){
+    rg = rg.toString().replace(/\D/g,"");
+    rg = rg.replace(/(\d{2})(\d{9})$/,"($1) $2");
+    return rg;
 }
