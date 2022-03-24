@@ -18,6 +18,7 @@
                 <label>SENHA</label><br>
                 <input type="password" name="senha" id="senha" maxlength="20"><br>
                 <button onclick="login()">ENTRAR</button>
+                <div id="mensagem-login"></div>
             </div>
         </div>
     </body>

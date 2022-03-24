@@ -17,7 +17,7 @@ function carregar() {
     }
 
     var http = new XMLHttpRequest();
-    var url = 'service/clientecadastroservice.php?id=' + id;
+    var url = '../webservice/service/clientecadastroservice.php?id=' + id;
 
     http.open('GET', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -108,7 +108,7 @@ function excluirEndereco(pId) {
 function incluirEndereco() {
     var oEndereco = new Object();
 
-    oEndereco.cep = document.getElementById("cep").value;
+    oEndereco.cep = document.getElementById("cep").value.replace(/[^0-9]/g, '');
     oEndereco.logradouro = document.getElementById("logradouro").value;
     oEndereco.numero = document.getElementById("numero").value;
     oEndereco.complemento = document.getElementById("complemento").value;
@@ -155,9 +155,9 @@ function salvar() {
 
 
     var http = new XMLHttpRequest();
-    var url = 'service/clientecadastroservice.php';
+    var url = '../webservice/service/clientecadastroservice.php';
     var params = JSON.stringify(oParametro);
-
+    
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     http.onreadystatechange = function () {
@@ -181,7 +181,7 @@ function carregarEstado() {
     var url_string = window.location.href;
     var url = new URL(url_string);
     var http = new XMLHttpRequest();
-    var url = 'service/estadoservice.php';
+    var url = '../webservice/service/estadoservice.php';
 
     http.open('GET', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

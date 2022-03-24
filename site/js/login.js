@@ -2,7 +2,7 @@ function login() {
     var login = document.getElementById("login").value;
     var senha = document.getElementById("senha").value;
     var http = new XMLHttpRequest();
-    var url = 'service/LoginService.php';
+    var url = '../webservice/service/LoginService.php';
     var params = 'login=' + login
             + '&senha=' + senha;
 
@@ -12,9 +12,14 @@ function login() {
         if (http.readyState == 4 && http.status == 200) {
             let resposta = http.responseText;
             resposta = JSON.parse(this.responseText);
-            console.log(resposta);
 
-            window.location.replace('index.php');
+            if (resposta.status === 'OK') {
+                window.location.replace('index.php');
+
+            } else if (resposta.status === 'ERRO') {
+                document.getElementById("mensagem-login").innerHTML = resposta.mensagem;
+            }
+
         } else if (http.status == 500) {
             let resposta = http.responseText;
             resposta = JSON.parse(this.responseText);

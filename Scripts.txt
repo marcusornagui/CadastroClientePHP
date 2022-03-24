@@ -1,0 +1,74 @@
+CREATE DATABASE cadastrocliente;
+
+CREATE TABLE cliente(
+	id INT NOT NULL AUTO_INCREMENT,
+	nome VARCHAR(50) NOT NULL,
+    datanascimento DATE NOT NULL,
+    cpf BIGINT(11) NOT NULL,
+    rg INT(9) NOT NULL,
+    telefone BIGINT(11) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+
+CREATE TABLE estado(
+	id INT NOT NULL,
+	descricao VARCHAR(20) NOT NULL,
+	sigla VARCHAR(2) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+
+INSERT INTO estado (id, descricao, sigla) VALUES 
+(11, 'RONDÔNIA', 'RO'),	
+(12, 'ACRE', 'AC'),	
+(13, 'AMAZONAS', 'AM'),	
+(14, 'RORAIMA', 'RR'),	
+(15, 'PARÁ', 'PA'),	
+(16, 'AMAPÁ', 'AP'),	
+(17, 'TOCANTINS', 'TO'),	
+(21, 'MARANHÃO', 'MA'),	
+(22, 'PIAUÍ', 'PI'),	
+(23, 'CEARÁ', 'CE'),	
+(24, 'RIO GRANDE DO NORTE', 'RN'),	
+(25, 'PARAÍBA', 'PB'),	
+(26, 'PERNAMBUCO', 'PE'),	
+(27, 'ALAGOAS', 'AL'),	
+(28, 'SERGIPE', 'SE'),	
+(29, 'BAHIA', 'BA'),	
+(31, 'MINAS GERAIS', 'MG'),	
+(32, 'ESPÍRITO SANTO', 'ES'),	
+(33, 'RIO DE JANEIRO', 'RJ'),	
+(35, 'SÃO PAULO', 'SP'),	
+(41, 'PARANÁ', 'PR'),	
+(42, 'SANTA CATARINA', 'SC'),	
+(43, 'RIO GRANDE DO SUL ', 'RS'),	
+(50, 'MATO GROSSO DO SUL', 'MS'),	
+(51, 'MATO GROSSO', 'MT'),	
+(52, 'GOIÁS', 'GO'),	
+(53, 'DISTRITO FEDERAL', 'DF');
+
+CREATE TABLE enderecocliente(
+	id INT NOT NULL AUTO_INCREMENT,
+	id_cliente INT NOT NULL,
+	cep BIGINT NOT NULL,
+	logradouro VARCHAR(100) NOT NULL,
+	numero VARCHAR(10) NOT NULL,
+	bairro VARCHAR(50) NOT NULL,
+	cidade VARCHAR(50) NOT NULL,
+	complemento VARCHAR(80) NOT NULL,
+	id_estado INT NOT NULL, 
+    	PRIMARY KEY (id),
+	FOREIGN KEY (id_cliente) REFERENCES cliente(id),
+	FOREIGN KEY (id_estado) REFERENCES estado(id)
+) ENGINE = InnoDB;
+
+
+CREATE TABLE usuario(
+	id INT NOT NULL AUTO_INCREMENT,
+	nome VARCHAR(50) NOT NULL,
+	login VARCHAR(20) NOT NULL,
+	senha VARCHAR(40) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+
+INSERT INTO usuario (nome, login, senha) VALUES ('Administrador', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+

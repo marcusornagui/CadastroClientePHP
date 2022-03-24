@@ -50,3 +50,8 @@ button {
 button:hover {
     opacity: 80%;
 }
+
+#mensagem-login {
+    font-weight: bold;
+}
+
