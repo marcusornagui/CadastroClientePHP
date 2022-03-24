@@ -13,6 +13,10 @@ function consultar() {
             let vCliente = http.responseText;
             vCliente = JSON.parse(this.responseText);
 
+            if (vCliente.length === 0) {
+                return;
+            }
+
             var htmlClientes = "<table>";
             htmlClientes += "<tr>";
             htmlClientes += "<th>ID</th>";
@@ -66,7 +70,6 @@ function excluir(pId) {
         if (http.readyState == 4 && http.status == 200) {
             let resposta = http.responseText;
             resposta = JSON.parse(this.responseText);
-            console.log(resposta);
 
             consultar();
 
@@ -86,21 +89,23 @@ function formatarData(pData) {
 }
 
 function formatarCPF(cpf) {
-    console.log(cpf);
-
     cpf = cpf.toString().replace(/[^\d]/g, "");
-
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3-\$4");
 }
 
-function formatarRG(rg){
-    rg = rg.toString().replace(/\D/g,"");
-    rg = rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1})$/,"$1.$2.$3-$4");
+function formatarRG(rg) {
+    rg = rg.toString().replace(/\D/g, "");
+    rg = rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1})$/, "$1.$2.$3-$4");
     return rg;
 }
 
-function formatarTelefone(rg){
-    rg = rg.toString().replace(/\D/g,"");
-    rg = rg.replace(/(\d{2})(\d{9})$/,"($1) $2");
-    return rg;
+function formatarTelefone(rg) {
+    var r = rg.toString().replace(/\D/g, "");
+    r = r.replace(/^0/, "");
+    if (r.length > 10) {
+        r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+    } else if (r.length > 9) {
+        r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+    } 
+    return r;
 }

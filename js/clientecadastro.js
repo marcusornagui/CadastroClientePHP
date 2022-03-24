@@ -25,7 +25,6 @@ function carregar() {
         if (http.readyState == 4 && http.status == 200) {
             let oClienteResponse = http.responseText;
             oClienteResponse = JSON.parse(this.responseText);
-            console.log(oClienteResponse);
 
             oCliente = oClienteResponse;
 
@@ -47,9 +46,9 @@ function exibirCliente() {
 
     document.getElementById("id").value = oCliente.id;
     document.getElementById("nome").value = oCliente.nome;
-    document.getElementById("cpf").value = oCliente.cpf;
-    document.getElementById("rg").value = oCliente.rg;
-    document.getElementById("telefone").value = oCliente.telefone;
+    document.getElementById("cpf").value = formatarCPF(oCliente.cpf);
+    document.getElementById("rg").value = formatarRG(oCliente.rg);
+    document.getElementById("telefone").value = formatarTelefone(oCliente.telefone.toLocaleString());
     document.getElementById("datanascimento").value = oCliente.dataNascimento;
 
     vEndereco = oCliente.clienteEndereco;
@@ -74,7 +73,7 @@ function exibirEndereco() {
 
         for (var endereco in vEndereco) {
             htmlEnderecos += "<tr>";
-            htmlEnderecos += "<td>" + vEndereco[endereco].cep + "</td>";
+            htmlEnderecos += "<td>" + formatarCep(vEndereco[endereco].cep) + "</td>";
             htmlEnderecos += "<td>" + vEndereco[endereco].logradouro + "</td>";
             htmlEnderecos += "<td>" + vEndereco[endereco].numero + "</td>";
             htmlEnderecos += "<td>" + vEndereco[endereco].complemento + "</td>";
@@ -101,8 +100,6 @@ function exibirEndereco() {
 }
 
 function excluirEndereco(pId) {
-    console.log(pId);
-
     vEndereco.splice(pId, 1);
 
     exibirEndereco();
@@ -138,14 +135,12 @@ function incluirEndereco() {
 }
 
 function salvar() {
-    console.log(vEndereco);
-
     var oParametro = new Object();
     oParametro.id = parseInt(document.getElementById("id").value);
     oParametro.nome = document.getElementById("nome").value;
-    oParametro.cpf = document.getElementById("cpf").value;
-    oParametro.rg = document.getElementById("rg").value;
-    oParametro.telefone = document.getElementById("telefone").value;
+    oParametro.cpf = document.getElementById("cpf").value.replace(/[^0-9]/g, '');
+    oParametro.rg = document.getElementById("rg").value.replace(/[^0-9]/g, '');
+    oParametro.telefone = document.getElementById("telefone").value.replace(/[^0-9]/g, '');
     oParametro.datanascimento = document.getElementById("datanascimento").value;
     oParametro.vEndereco = vEndereco;
 
@@ -163,15 +158,12 @@ function salvar() {
     var url = 'service/clientecadastroservice.php';
     var params = JSON.stringify(oParametro);
 
-    console.log(params);
-
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
             let resposta = http.responseText;
             resposta = JSON.parse(this.responseText);
-            console.log(resposta);
 
             window.location.href = 'clienteconsulta';
 
@@ -197,7 +189,6 @@ function carregarEstado() {
         if (http.readyState == 4 && http.status == 200) {
             let estadoResponse = http.responseText;
             estadoResponse = JSON.parse(this.responseText);
-            console.log(estadoResponse);
 
             vEstado = estadoResponse;
 
@@ -226,6 +217,98 @@ function exibirEstado() {
     htmlEstados += "</select>"
 
     document.getElementById("estados").innerHTML = htmlEstados;
+}
+
+function mascara(o, tipo) {
+    setTimeout(function () {
+        if (tipo === 'telefone') {
+            var telefone = formatarTelefone(o.value);
+            if (telefone != o.value) {
+                o.value = telefone;
+            }
+
+        } else if (tipo === 'cpf') {
+            var cpf = formatarCPF(o.value);
+            if (cpf != o.value) {
+                o.value = cpf;
+            }
+        } else if (tipo === 'rg') {
+            var rg = formatarRG(o.value);
+            if (rg != o.value) {
+                o.value = rg;
+            }
+            
+        }  else if (tipo === 'cep') {
+            var cep = formatarCep(o.value);
+            if (cep != o.value) {
+                o.value = cep;
+            }
+        }
+
+    }, 1);
+}
+
+function formatarTelefone(telefone) {
+    var r = telefone.replace(/\D/g, "");
+    r = r.replace(/^0/, "");
+
+    if (r.length > 10) {
+        r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+    } else if (r.length > 5) {
+        r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+    } else if (r.length > 2) {
+        r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+    } else {
+        r = r.replace(/^(\d*)/, "($1");
+    }
+    return r;
+}
+
+
+function formatarCPF(cpf) {
+    cpf = cpf.toString().replace(/[^\d]/g, "");
+
+    if (cpf.length > 10) {
+        cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2}).*/, "\$1.\$2.\$3-\$4");
+    } else if (cpf.length > 8) {
+        cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})/, "\$1.\$2.\$3-");
+    } else if (cpf.length > 5) {
+        cpf = cpf.replace(/(\d{3})(\d{3})/, "\$1.\$2.");
+    } else if (cpf.length > 2) {
+        cpf = cpf.replace(/(\d{3})/, "\$1.");
+    }
+
+    return cpf;
+}
+
+function formatarRG(rg) {
+    rg = rg.toString().replace(/\D/g, "");
+
+    if (rg.length > 8) {
+        rg = rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1}).*/, "$1.$2.$3-$4");
+    } else if (rg.length > 7) {
+        rg = rg.replace(/(\d{2})(\d{3})(\d{3})/, "$1.$2.$3-");
+    } else if (rg.length > 4) {
+        rg = rg.replace(/(\d{2})(\d{3})/, "$1.$2.");
+    } else if (rg.length > 1) {
+        rg = rg.replace(/(\d{2})/, "$1.");
+    }
+    
+    return rg;
+}
+
+function formatarCep(cep) {
+    cep = cep.toString().replace(/\D/g, "");
+
+    if (cep.length > 7) {
+        cep = cep.replace(/(\d{2})(\d{3})(\d{3}).*/, "$1.$2-$3");
+    } else if (cep.length > 4) {
+        cep = cep.replace(/(\d{2})(\d{3})/, "$1.$2-");
+    }  else if (cep.length > 1) {
+        cep = cep.replace(/(\d{2})/, "$1.");
+    }
+    
+    return cep;
 }
 
 

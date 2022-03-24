@@ -22,11 +22,11 @@ require_once './Sessao.php';
                 <div class="label-basico"><label>NOME</label></div>
                 <div class="input-basico"><input type="text" name="nome" id="nome" maxlength="50"></div>
                 <div class="label-basico"><label>CPF</label></div>
-                <div class="input-basico"><input type="text" name="cpf" id="cpf" maxlength="11"></div>
+                <div class="input-basico"><input type="text" name="cpf" id="cpf" onkeypress="mascara(this, 'cpf');"></div>
                 <div class="label-basico"><label>RG</label></div>
-                <div class="input-basico"><input type="text" name="rg" id="rg" maxlength="9"></div>
+                <div class="input-basico"><input type="text" name="rg" id="rg" onkeypress="mascara(this, 'rg');"></div>
                 <div class="label-basico"><label>TELEFONE</label></div>
-                <div class="input-basico"><input type="tel" name="telefone" id="telefone" maxlength="15"></div>
+                <div class="input-basico"><input type="tel" name="telefone" id="telefone" onkeypress="mascara(this, 'telefone');"></div>
                 <div class="label-basico"><label>DATA NASCIMENTO</label></div>
                 <div class="input-basico"><input type="date" name="datanascimento" id="datanascimento"></div>
 
@@ -40,7 +40,7 @@ require_once './Sessao.php';
 
                 <div id="cadastro-endereco">
                     <div class="label-endereco"><label>CEP</label></div>
-                    <div class="input-endereco"><input type="text" name="cep" id="cep" maxlength="9"></div>
+                    <div class="input-endereco"><input type="text" name="cep" id="cep" onkeypress="mascara(this, 'cep');"></div>
                     <div class="label-endereco"><label>LOGRADOURO</label></div>
                     <div class="input-endereco"><input type="text" name="logradouro" id="logradouro" maxlength="100"></div>
                     <div class="label-endereco"><label>NÚMERO</label></div>
